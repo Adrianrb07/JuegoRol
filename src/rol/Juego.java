@@ -1,4 +1,4 @@
-package juego;
+package rol;
 
 import java.util.Arrays;
 import java.util.Scanner;

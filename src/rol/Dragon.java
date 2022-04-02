@@ -1,4 +1,4 @@
-package monstruos;
+package rol;
 
 public class Dragon extends Monstruo{
     public Dragon(String nombre) {

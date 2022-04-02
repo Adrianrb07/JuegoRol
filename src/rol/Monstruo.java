@@ -1,4 +1,4 @@
-package monstruos;
+package rol;
 
 public class Monstruo {
     protected String nombre;

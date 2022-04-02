@@ -1,4 +1,4 @@
-package personaje;
+package rol;
 
 public class Personaje implements Comparable<Personaje> {
     String nombre;

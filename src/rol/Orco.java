@@ -1,4 +1,4 @@
-package monstruos;
+package rol;
 
 public class Orco extends Monstruo{
 
