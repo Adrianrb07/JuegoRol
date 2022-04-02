@@ -1,4 +1,4 @@
-package clases;
+package juego;
 
 import java.util.Arrays;
 import java.util.Scanner;

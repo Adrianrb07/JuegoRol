@@ -1,4 +1,4 @@
-package clases;
+package monstruos;
 
 public class Troll extends Monstruo{
     public Troll(String nombre) {

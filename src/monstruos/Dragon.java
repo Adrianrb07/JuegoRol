@@ -1,4 +1,4 @@
-package clases;
+package monstruos;
 
 public class Dragon extends Monstruo{
     public Dragon(String nombre) {

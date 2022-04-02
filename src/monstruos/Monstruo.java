@@ -1,4 +1,4 @@
-package clases;
+package monstruos;
 
 public class Monstruo {
     protected String nombre;
