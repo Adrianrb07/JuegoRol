@@ -2,38 +2,40 @@ package rol;
 
 public class Personaje implements Comparable<Personaje> {
     String nombre;
-    // Raza
+
+    //Raza
     enum Raza {HUMANO, ELFO, ENANO, HOBBIT, ORCO, TROLL}
+
     Raza raza;
-    // Atributos físicos
+    //Atributos físicos
     int fuerza;
     int agilidad;
     int constitucion;
     int inteligencia;
-    int intuicion ;
+    int intuicion;
     int presencia;
-    // Nivel, experiencia y PV
+    //Nivel, experiencia y PV
     int nivel;
     int experiencia;
     int puntosVida;
 
-    // CONSTRUCTORES
-    public Personaje(String nombre, Raza raza, int fuerza, int agilidad, int constitución, int inteligencia, int intuicion, int presencia, int nivel, int experiencia, int puntosVida) {
+    //CONSTRUCTORES
+    public Personaje(String nombre, Raza raza, int fuerza, int agilidad, int constitucion, int inteligencia, int intuicion, int presencia, int nivel, int experiencia, int puntosVida) {
         this.nombre = nombre;
         this.raza = raza;
-        this.fuerza = fuerza>0?fuerza:0;
-        this.agilidad = agilidad>0?agilidad:0;
-        this.constitucion = constitución>0?constitución:0;
-        this.inteligencia = inteligencia>0?inteligencia:0;
-        this.intuicion = intuicion>0?intuicion:0;
-        this.presencia = presencia>0?presencia:0;
-        this.nivel = nivel>0?nivel:0;
-        this.experiencia = experiencia>0?experiencia:0;
-        this.puntosVida = puntosVida>0?puntosVida:0;
+        this.fuerza = Math.max(fuerza, 0);
+        this.agilidad = Math.max(agilidad, 0);
+        this.constitucion = Math.max(constitucion, 0);
+        this.inteligencia = Math.max(inteligencia, 0);
+        this.intuicion = Math.max(intuicion, 0);
+        this.presencia = Math.max(presencia, 0);
+        this.nivel = Math.max(nivel, 0);
+        this.experiencia = Math.max(experiencia, 0);
+        this.puntosVida = Math.max(puntosVida, 0);
     }
 
     public Personaje(String nombre, Raza raza, int fuerza, int agilidad, int constitucion, int inteligencia, int intuicion, int presencia) {
-        this(nombre, raza, fuerza, agilidad, constitucion, inteligencia, intuicion, presencia, 1, 0, 50+constitucion);
+        this(nombre, raza, fuerza, agilidad, constitucion, inteligencia, intuicion, presencia, 1, 0, 50 + constitucion);
     }
 
     public Personaje(String nombre, Raza raza) {
@@ -44,8 +46,8 @@ public class Personaje implements Comparable<Personaje> {
         this(nombre, Raza.HUMANO);
     }
 
-    // MÉTODOS PÚBLICOS
-    public void mostrar(){
+    //MÉTODOS PÚBLICOS
+    public void mostrar() {
         System.out.println("PERSONAJE");
         System.out.println("=========");
         System.out.println("Nombre: " + nombre);
@@ -62,35 +64,36 @@ public class Personaje implements Comparable<Personaje> {
         System.out.println("nivel: " + nivel);
         System.out.println("experiencia: " + experiencia);
         System.out.println("puntosVida: " + puntosVida);
-        System.out.println("");
+        System.out.println();
 
     }
 
-    public void subirNivel(){
+    public void subirNivel() {
         nivel++;
     }
 
-    public void curar(){
-        if (puntosVida < constitucion + 50){
+    public void curar() {
+        if (puntosVida < constitucion + 50) {
             puntosVida = constitucion + 50;
         }
     }
 
-    public boolean estaVivo(){
+    public boolean estaVivo() {
         return puntosVida >= 0;
     }
 
-    public boolean perderVida(int puntos){
+    public boolean perderVida(int puntos) {
         puntosVida -= puntos;
         return puntosVida < 0;
     }
 
-    public void sumarExperiencia(int puntos){
+    public void sumarExperiencia(int puntos) {
         experiencia += puntos;
     }
 
-    public void atacar(Personaje p){
-        System.out.println(nombre + "("+ puntosVida +") ataca a " +
+    //Sobrecarga en atacar (a Personajes y a Monstruos)
+    public void atacar(Personaje p) {
+        System.out.println(nombre + "(" + puntosVida + ") ataca a " +
                 p.nombre + "(" + p.puntosVida + "): ");
         int dadosPj = random100();
         int ataque = fuerza + dadosPj;
@@ -116,9 +119,15 @@ public class Personaje implements Comparable<Personaje> {
         }
     }
 
-    public void atacar(Monstruo m){
-        System.out.println(nombre + "("+ puntosVida +") ataca a " +
-                m.getClass().getSimpleName() + "(" + m.puntosVida + "): ");
+    public void atacar(Monstruo m) {
+        //Condicional para mostrar resultados según el nombre del monstruo
+        if (m.nombre.equals("")) {
+            System.out.println(nombre + "(" + puntosVida + ") ataca a " +
+                    m.getClass().getSimpleName() + "(" + m.puntosVida + "): ");
+        } else {
+            System.out.println(nombre + "(" + puntosVida + ") ataca a " +
+                    m.nombre + "(" + m.puntosVida + "): ");
+        }
         int dadosPj = random100();
         int ataque = fuerza + dadosPj;
         System.out.print("* Ataque = (fuerza + random100) = ");
@@ -134,12 +143,25 @@ public class Personaje implements Comparable<Personaje> {
         if (resultado > 0) {
             sumarExperiencia(resultado);
             System.out.println(nombre + " suma " + resultado + " puntos de experiencia.");
-            if (m.perderVida(resultado))
-                System.out.println(nombre + " mata a " + m.nombre + "!!! (-" + resultado + " PV)");
-            else
-                System.out.println(nombre + " hiere a " + m.nombre + " (-" + resultado + " PV)");
+            if (m.perderVida(resultado)) {
+                if (m.nombre.equals("")) {
+                    System.out.println(nombre + " mata a " + m.getClass().getSimpleName() + "!!! (-" + resultado + " PV)");
+                } else {
+                    System.out.println(nombre + " mata a " + m.nombre + "!!! (-" + resultado + " PV)");
+                }
+            } else {
+                if (m.nombre.equals("")) {
+                    System.out.println(nombre + " hiere a " + m.getClass().getSimpleName() + " (-" + resultado + " PV)");
+                } else {
+                    System.out.println(nombre + " hiere a " + m.nombre + " (-" + resultado + " PV)");
+                }
+            }
         } else {
-            System.out.println(m.nombre + " esquiva o para el ataque.");
+            if (m.nombre.equals("")) {
+                System.out.println(m.getClass().getSimpleName() + " esquiva o para el ataque.");
+            } else {
+                System.out.println(m.nombre + " esquiva o para el ataque.");
+            }
         }
     }
 
@@ -158,23 +180,20 @@ public class Personaje implements Comparable<Personaje> {
     @Override
     public String toString() {
         if (nombre.equals("")) {
-            return  "\n"+raza + " (" +
+            return "\n" + raza + " (" +
                     "PV=" + puntosVida + "; " +
                     "N=" + nivel + "; " +
                     "PX=" + experiencia + ")";
         } else {
-            return  "\n"+nombre + " (" +
+            return "\n" + nombre + " (" +
                     "PV=" + puntosVida + "; " +
                     "N=" + nivel + "; " +
                     "PX=" + experiencia + ")";
         }
     }
 
-
     // MÉTODOS PRIVADOS
-    private static int random100(){
-        return (int)(Math.random() * 100 + 1);
+    private static int random100() {
+        return (int) (Math.random() * 100 + 1);
     }
-
-
 }
