@@ -1,15 +1,15 @@
-package rol;
+package seres;
 
 public class Personaje implements Comparable<Personaje> {
     String nombre;
 
     //Raza
-    enum Raza {HUMANO, ELFO, ENANO, HOBBIT, ORCO, TROLL}
+    public enum Raza {HUMANO, ELFO, ENANO, HOBBIT, ORCO, TROLL}
 
     Raza raza;
     //Atributos físicos
     int fuerza;
-    int agilidad;
+    public int agilidad;
     int constitucion;
     int inteligencia;
     int intuicion;
@@ -17,7 +17,7 @@ public class Personaje implements Comparable<Personaje> {
     //Nivel, experiencia y PV
     int nivel;
     int experiencia;
-    int puntosVida;
+    public int puntosVida;
 
     //CONSTRUCTORES
     public Personaje(String nombre, Raza raza, int fuerza, int agilidad, int constitucion, int inteligencia, int intuicion, int presencia, int nivel, int experiencia, int puntosVida) {
@@ -64,7 +64,7 @@ public class Personaje implements Comparable<Personaje> {
         System.out.println("nivel: " + nivel);
         System.out.println("experiencia: " + experiencia);
         System.out.println("puntosVida: " + puntosVida);
-        System.out.println();
+        System.out.println("");
 
     }
 
@@ -121,7 +121,7 @@ public class Personaje implements Comparable<Personaje> {
 
     public void atacar(Monstruo m) {
         //Condicional para mostrar resultados según el nombre del monstruo
-        if (m.nombre.equals("")) {
+        if (m.nombre == null) {
             System.out.println(nombre + "(" + puntosVida + ") ataca a " +
                     m.getClass().getSimpleName() + "(" + m.puntosVida + "): ");
         } else {
@@ -144,25 +144,27 @@ public class Personaje implements Comparable<Personaje> {
             sumarExperiencia(resultado);
             System.out.println(nombre + " suma " + resultado + " puntos de experiencia.");
             if (m.perderVida(resultado)) {
-                if (m.nombre.equals("")) {
+                if (m.nombre == null) {
                     System.out.println(nombre + " mata a " + m.getClass().getSimpleName() + "!!! (-" + resultado + " PV)");
                 } else {
                     System.out.println(nombre + " mata a " + m.nombre + "!!! (-" + resultado + " PV)");
                 }
             } else {
-                if (m.nombre.equals("")) {
+                if (m.nombre == null) {
                     System.out.println(nombre + " hiere a " + m.getClass().getSimpleName() + " (-" + resultado + " PV)");
                 } else {
                     System.out.println(nombre + " hiere a " + m.nombre + " (-" + resultado + " PV)");
                 }
             }
         } else {
-            if (m.nombre.equals("")) {
+            if (m.nombre == null) {
                 System.out.println(m.getClass().getSimpleName() + " esquiva o para el ataque.");
             } else {
                 System.out.println(m.nombre + " esquiva o para el ataque.");
             }
         }
+
+
     }
 
     //MÉTODOS SOBREESCRITOS
@@ -180,15 +182,15 @@ public class Personaje implements Comparable<Personaje> {
     @Override
     public String toString() {
         if (nombre.equals("")) {
-            return "\n" + raza + " (" +
-                    "PV=" + puntosVida + "; " +
-                    "N=" + nivel + "; " +
-                    "PX=" + experiencia + ")";
+            return  raza + " (" + "PV=" +
+                    puntosVida + "; " + "N=" +
+                    nivel + "; " + "PX=" +
+                    experiencia + ")";
         } else {
-            return "\n" + nombre + " (" +
-                    "PV=" + puntosVida + "; " +
-                    "N=" + nivel + "; " +
-                    "PX=" + experiencia + ")";
+            return  nombre + " (" + "PV=" +
+                    puntosVida + "; " + "N=" +
+                    nivel + "; " + "PX=" +
+                    experiencia + ")";
         }
     }
 
@@ -196,4 +198,5 @@ public class Personaje implements Comparable<Personaje> {
     private static int random100() {
         return (int) (Math.random() * 100 + 1);
     }
+
 }

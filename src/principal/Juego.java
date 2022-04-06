@@ -1,4 +1,7 @@
-package rol;
+package principal;
+
+import comparadores.ComparaPuntoVida;
+import seres.*;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -17,7 +20,7 @@ public class Juego {
         personajes[2] = new Personaje("Aragorn", Personaje.Raza.HUMANO, 60, 90, 70, 90, 90, 50, 3, 70, 70);
         personajes[3] = new Personaje("Frodo", Personaje.Raza.HOBBIT, 60, 90, 70, 90, 90, 50, 4, 50, 60);
         personajes[4] = new Personaje("", Personaje.Raza.TROLL, 60, 90, 70, 90, 90, 50, 5, 60, 50);
-        personajes[5] = new Personaje("Orco", Personaje.Raza.ORCO, 60, 90, 70, 90, 90, 50, 1, 80, 80);
+        personajes[5] = new Personaje("seres.Orco", Personaje.Raza.ORCO, 60, 90, 70, 90, 90, 50, 1, 80, 80);
 
         // Salida de datos
         boolean salir = false;
@@ -28,7 +31,7 @@ public class Juego {
             System.out.println("1. - Mostrar Personajes ordenados por nivel");
             System.out.println("2. - Mostrar Personajes ordenados por PV");
             System.out.println("3. - Mostrar Personajes ordenados por PV descendentemente");
-            System.out.println("4. - Generar Monstruo");
+            System.out.println("4. - Generar seres.Monstruo");
             System.out.println("5. - Combate singular");
             System.out.println("==========================================================");
             opcion = sc.nextInt();
@@ -36,17 +39,23 @@ public class Juego {
             switch (opcion) {
                 case 1:
                     Arrays.sort(personajes);
-                    System.out.println(Arrays.toString(personajes));
+                    for (Personaje p: personajes) {
+                        System.out.println(p);
+                    }
                     break;
 
                 case 2:
                     Arrays.sort(personajes, new ComparaPuntoVida());
-                    System.out.println(Arrays.toString(personajes));
+                    for (Personaje p: personajes) {
+                        System.out.println(p);
+                    }
                     break;
 
                 case 3:
                     Arrays.sort(personajes, new ComparaPuntoVida().reversed());
-                    System.out.println(Arrays.toString(personajes));
+                    for (Personaje p: personajes) {
+                        System.out.println(p);
+                    }
                     break;
 
                 case 4:
@@ -58,9 +67,9 @@ public class Juego {
                     try {
                         combateSingular(personajes[0], monstruos[0]);
                         salir = true;
+
                     } catch (Exception e) {
-                        System.out.println("Tienes que generar un monstruo para que haya combate..." +
-                                " \nSelecciona primero la opción 4 del menú");
+                        System.out.println("Debes generar un monstruo antes...(Opción 4)");
                     }
             }
 
@@ -70,13 +79,13 @@ public class Juego {
     public static Monstruo generarMonstruoAleatorio() {
         int probabilidad = (int) (Math.random() * 100) + 1;
         if (probabilidad <= 10) {
-            return new Dragon("");
+            return new Dragon();
         } else if (probabilidad <= 20) {
-            return new Troll("");
+            return new Troll();
         } else if (probabilidad <= 30) {
-            return new Aranha("");
+            return new Aranha();
         } else {
-            return new Orco("");
+            return new Orco();
         }
     }
 
