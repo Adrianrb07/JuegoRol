@@ -3,6 +3,7 @@ package mapeo;
 import javax.swing.*;
 
 public class Mapa extends JFrame {
+    //POR COMPLETAR
     public JTextField caja;
 
     public int[][] mapa = {
