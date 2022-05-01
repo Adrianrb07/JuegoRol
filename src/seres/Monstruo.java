@@ -1,9 +1,12 @@
-package clases;
+package seres;
 
 public class Monstruo {
     //Atributos monstruo
-    protected String nombre;
-    protected int ataque, defensa, velocidad, puntosVida;
+    public String nombre;
+    public int ataque;
+    public int defensa;
+    public int velocidad;
+    public int puntosVida;
 
     //CONSTRUCTOR
     public Monstruo(String nombre, int ataque, int defensa, int velocidad, int puntosVida) {
@@ -26,7 +29,7 @@ public class Monstruo {
 
     public void atacar(Personaje p) {
         //Condicional para mostrar resultados según el nombre del monstruo
-        if (nombre.equals("")) {
+        if (nombre == null) {
             System.out.println(getClass().getSimpleName() + "(" + puntosVida + ") ataca a " +
                     p.nombre + "(" + p.puntosVida + "): ");
         } else {
@@ -34,28 +37,28 @@ public class Monstruo {
                     p.nombre + "(" + p.puntosVida + "): ");
         }
         int dadosPj = random100();
-        int ataqueM = ataque + dadosPj;
+        int ataque = this.ataque + dadosPj;
         System.out.print("* Ataque = (ataque + random100) = ");
-        System.out.println("(" + ataque + " + " + dadosPj + ") = " + ataqueM);
+        System.out.println("(" + ataque + " + " + dadosPj + ") = " + ataque);
         int dadosM = random100();
-        int defensaM = defensa + dadosM;
+        int defensa = this.defensa + dadosM;
         System.out.print("* Defensa = (defensa + random100) = ");
-        System.out.println("(" + defensa + " + " + dadosM + ") = " + defensaM);
+        System.out.println("(" + defensa + " + " + dadosM + ") = " + defensa);
 
         System.out.print("* Resultado: ");
-        int resultado = ataqueM - defensaM;
+        int resultado = ataque - defensa;
 
         if (resultado > 0) {
             p.sumarExperiencia(resultado);
             System.out.println(p.nombre + " suma " + resultado + " puntos de experiencia.");
             if (p.perderVida(resultado)) {
-                if (nombre.equals("")) {
+                if (nombre == null) {
                     System.out.println(getClass().getSimpleName() + " mata a " + p.nombre + "!!! (-" + resultado + " PV)");
                 } else {
                     System.out.println(nombre + " mata a " + p.nombre + "!!! (-" + resultado + " PV)");
                 }
             } else {
-                if (nombre.equals("")) {
+                if (nombre == null) {
                     System.out.println(getClass().getSimpleName() + " hiere a " + p.nombre + " (-" + resultado + " PV)");
                 } else {
                     System.out.println(nombre + " hiere a " + p.nombre + " (-" + resultado + " PV)");
@@ -86,13 +89,25 @@ public class Monstruo {
         System.out.println("Defensa: " + defensa);
         System.out.println("Velocidad: " + velocidad);
         System.out.println("puntosVida: " + puntosVida);
-        System.out.println();
+        System.out.println("");
+
+    }
+
+    public String mostrarHTML(){
+        return "<html>"
+                + "<div>"
+                + "MONSTRUO<br>"
+                + "=========<br>"
+                + getClass().getSimpleName()
+                + " (PV: " + puntosVida + ")"
+                + "</div>"
+                + "</html>";
     }
 
     //MÉTODOS SOBREESCRITOS
     @Override
     public String toString() {
-        if (nombre.equals("")) {
+        if (nombre == null) {
             return getClass().getSimpleName() + " (" +
                     "PV=" + puntosVida + ")";
         } else {

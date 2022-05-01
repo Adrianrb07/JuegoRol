@@ -1,4 +1,6 @@
-package clases;
+package comparadores;
+
+import seres.Personaje;
 
 import java.util.Comparator;
 
